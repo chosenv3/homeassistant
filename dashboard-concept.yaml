@@ -1,0 +1,405 @@
+- title: New View
+  path: new-view
+  icon: mdi:chair-rolling
+  theme: Google Dark Theme
+  type: custom:grid-layout
+  layout:
+    grid-template-rows: auto auto auto auto auto auto
+    grid-template-columns: 5% 19% 19% 19% 19% 19%
+    grid-template-areas: |
+      "s1 camera1 camera1 camera2 camera2 camera3"
+      "s1 h1 h1 h1 h1 h2"
+      "s1 camera4 camera4 camera5 camera5 heat"
+      "s1 c1 c2 c3 c3 heat"
+      "s1 f1 f1 f1 f1 heat"
+      "s1 e1 g1 g1 g1 g1"
+  cards:
+    - name: Front Left
+      type: custom:webrtc-camera
+      url: unifi_camera_front_left
+      ui: true
+      muted: true
+      style:
+        - '.screenshot {display: none}'
+        - '.pictureinpicture {display: none}'
+      view_layout:
+        grid-area: camera1
+    - name: Front Left
+      type: custom:webrtc-camera
+      url: unifi_camera_front_right
+      ui: true
+      muted: true
+      style:
+        - '.screenshot {display: none}'
+        - '.pictureinpicture {display: none}'
+      view_layout:
+        grid-area: camera2
+    - name: Rear
+      type: custom:webrtc-camera
+      url: unifi_camera_rear
+      ui: true
+      muted: true
+      style:
+        - '.screenshot {display: none}'
+        - '.pictureinpicture {display: none}'
+      view_layout:
+        grid-area: camera4
+    - name: Side
+      type: custom:webrtc-camera
+      url: unifi_camera_side
+      ui: true
+      muted: true
+      style:
+        - '.screenshot {display: none}'
+        - '.pictureinpicture {display: none}'
+      view_layout:
+        grid-area: camera3
+    - name: Side
+      type: custom:webrtc-camera
+      url: unifi_camera_doorbell
+      ui: true
+      muted: true
+      style:
+        - '.screenshot {display: none}'
+        - '.pictureinpicture {display: none}'
+      view_layout:
+        grid-area: camera5
+    - type: vertical-stack
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: gauge
+              entity: sensor.living_room_temperature
+              name: Temperature
+              theme: Google Dark Theme
+              max: 30
+              needle: true
+              severity:
+                green: 0
+                yellow: 18
+                red: 24
+        - type: thermostat
+          entity: climate.living_room
+          name: Heating
+          theme: Google Dark Theme
+        - type: horizontal-stack
+          cards:
+            - type: thermostat
+              entity: climate.office
+              name: Office
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.bedroom_2
+              name: Bedroom
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.bathroom
+              name: Bathroom
+              theme: Google Dark Theme
+        - type: horizontal-stack
+          cards:
+            - type: thermostat
+              entity: climate.lounge
+              name: Lounge
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.hallway
+              name: Hallway
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.conservatory
+              name: Conservatory
+              theme: Google Dark Theme
+      view_layout:
+        grid-area: heat
+    - type: horizontal-stack
+      cards:
+        - type: custom:mushroom-template-card
+          primary: Front
+          secondary: >-
+            {% if is_state("binary_sensor.front_door_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.front_door_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.front_door_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.front_door_entry_door
+          multiline_secondary: false
+          fill_container: false
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: Kitchen
+          secondary: >-
+            {% if is_state("binary_sensor.kitchen_door_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.kitchen_door_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.kitchen_door_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.kitchen_door_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: Conservatory
+          secondary: >-
+            {% if is_state("binary_sensor.conservatory_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.conservatory_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.conservatory_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.conservatory_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: "Shed (Front)"
+          secondary: >-
+            {% if is_state("binary_sensor.shed_front_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.shed_front_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.shed_front_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.shed_front_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: "Shed (Back)"
+          secondary: >-
+            {% if is_state("binary_sensor.shed_back_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.shed_back_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.shed_back_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.shed_back_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+      view_layout:
+        grid-area: h1
+    - type: entities
+      entities:
+        - entity: sensor.dcc_sourced_smart_electricity_meter_cost_today
+          name: Cost (today)
+        - entity: sensor.dcc_sourced_smart_electricity_meter_rate
+          name: Rate
+        - entity: sensor.dcc_sourced_smart_electricity_meter_standing_charge
+          name: Standing charge
+        - entity: sensor.dcc_sourced_smart_electricity_meter_usage_today
+          name: Usage (today)
+      title: Electricity meter
+      state_color: false
+      view_layout:
+        grid-area: e1
+    - type: entities
+      entities:
+        - entity: sensor.dcc_sourced_smart_gas_meter_cost_today
+          name: Cost (today)
+        - entity: sensor.dcc_sourced_smart_gas_meter_rate
+          name: Rate
+        - entity: sensor.dcc_sourced_smart_gas_meter_standing_charge
+          name: Standing charge
+        - entity: sensor.dcc_sourced_smart_gas_meter_usage_today
+          name: Usage (today)
+      title: DCC Sourced smart gas meter
+      view_layout:
+        grid-area: g1
+
+- title: Main
+  path: main
+  theme: Google Dark Theme
+  type: custom:grid-layout
+  layout:
+    grid-template-rows: auto auto auto auto auto
+    grid-template-columns: 28% 28% 28% 16%
+    grid-template-areas: |
+      "camera1 camera2 camera3 camera4"
+      "h1 h1 h1 heat"
+      "c1 c2 c3 heat"
+      "f1 f1 f1 heat"
+      "e1 g1 g1 g1"
+  cards:
+    - type: vertical-stack
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: gauge
+              entity: sensor.living_room_temperature
+              name: Temperature
+              theme: Google Dark Theme
+              max: 30
+              needle: true
+              severity:
+                green: 0
+                yellow: 18
+                red: 24
+        - type: thermostat
+          entity: climate.living_room
+          name: Heating
+          theme: Google Dark Theme
+        - type: horizontal-stack
+          cards:
+            - type: thermostat
+              entity: climate.office
+              name: Office
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.bedroom_2
+              name: Bedroom
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.bathroom
+              name: Bathroom
+              theme: Google Dark Theme
+        - type: horizontal-stack
+          cards:
+            - type: thermostat
+              entity: climate.lounge
+              name: Lounge
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.hallway
+              name: Hallway
+              theme: Google Dark Theme
+            - type: thermostat
+              entity: climate.conservatory
+              name: Conservatory
+              theme: Google Dark Theme
+      view_layout:
+        grid-area: heat
+    - square: false
+      type: grid
+      cards:
+        - states:
+            - arm_home
+            - arm_away
+          type: alarm-panel
+          entity: alarm_control_panel.alarm_control_panel
+          theme: Google Dark Theme
+          columns: 1
+      view_layout:
+        grid-area: c1
+    - type: horizontal-stack
+      cards:
+        - type: custom:mushroom-template-card
+          primary: Front
+          secondary: >-
+            {% if is_state("binary_sensor.front_door_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.front_door_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.front_door_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.front_door_entry_door
+          multiline_secondary: false
+          fill_container: false
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: Kitchen
+          secondary: >-
+            {% if is_state("binary_sensor.kitchen_door_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.kitchen_door_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.kitchen_door_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.kitchen_door_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: Conservatory
+          secondary: >-
+            {% if is_state("binary_sensor.conservatory_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.conservatory_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.conservatory_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.conservatory_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: "Shed (Front)"
+          secondary: >-
+            {% if is_state("binary_sensor.shed_front_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.shed_front_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.shed_front_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.shed_front_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+        - type: custom:mushroom-template-card
+          primary: "Shed (Back)"
+          secondary: >-
+            {% if is_state("binary_sensor.shed_back_entry_door", "on") %}Open{% else %}Closed{% endif %}
+          icon: >-
+            {% if is_state("binary_sensor.shed_back_entry_door", "on") %}mdi:door-open{% else %}mdi:door-closed{% endif %}
+          icon_color: >-
+            {% if is_state("binary_sensor.shed_back_entry_door", "on") %}red{% else %}green{% endif %}
+          entity: binary_sensor.shed_back_entry_door
+          tap_action:
+            action: more-info
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+      view_layout:
+        grid-area: h1
+    - type: entities
+      entities:
+        - entity: sensor.dcc_sourced_smart_electricity_meter_cost_today
+          name: Cost (today)
+        - entity: sensor.dcc_sourced_smart_electricity_meter_rate
+          name: Rate
+        - entity: sensor.dcc_sourced_smart_electricity_meter_standing_charge
+          name: Standing charge
+        - entity: sensor.dcc_sourced_smart_electricity_meter_usage_today
+          name: Usage (today)
+      title: Electricity meter
+      state_color: false
+      view_layout:
+        grid-area: e1
+    - type: entities
+      entities:
+        - entity: sensor.dcc_sourced_smart_gas_meter_cost_today
+          name: Cost (today)
+        - entity: sensor.dcc_sourced_smart_gas_meter_rate
+          name: Rate
+        - entity: sensor.dcc_sourced_smart_gas_meter_standing_charge
+          name: Standing charge
+        - entity: sensor.dcc_sourced_smart_gas_meter_usage_today
+          name: Usage (today)
+      title: DCC Sourced smart gas meter
+      view_layout:
+        grid-area: g1
